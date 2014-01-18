@@ -4,65 +4,55 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class GA {
-	private static Random rand = new Random();
+	/*static random for obvious reasons*/
+	static Random rand = new Random();
+	/*this must be an even number in this implementation.*/
+	private static int populationSize = 40;
 
 	public static void main(String[] args) {
-		new GA().go(42);
+		new GA().goLive(42);
 	}
 
-	private static char[] geneTable = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '*', '/' };
-	private static int geneLength = 5;
-	private static double crossRate = 0.7;
-	private static double mutationRate = 0.001;
-	private static int populationSize = 40; // this must be an even number in this
-																					// implementation.
-
-	private void go(int target) {
+	private void goLive(int target) {
+		// our counter..
 		int generation = 0;
-		ArrayList genePoolA = new ArrayList(populationSize);
-		ArrayList genePoolB = new ArrayList(populationSize);
-	}
-
-	private static class Chromosome {
-		private StringBuffer chromo = new StringBuffer(geneLength * 4);
-		public StringBuffer decodeChromo = new StringBuffer(geneLength * 4);
-		public double score;
-		public int summation;
-
-		public Chromosome(int target) {
-			// generate a random chromosome
-			for (int i = 0; i < geneLength; i++) {
-				// creates a binary string based on a random character in our geneTable.
-				String binaryString = Integer.toBinaryString(rand.nextInt(geneTable.length));
-				// to make sure that gene is the correct length regardless of the number
-				// we add leading zeros as placeholders.
-				int fillLength = 4 - binaryString.length();
-				for (int j = 0; j < fillLength; j++) {
-					chromo.append('0');
-				}
-				// we then append the rest of the gene to the chromosome.
-				chromo.append(binaryString);
+		// these will be alternating buffers
+		ArrayList<Chromosome> genePoolA = new ArrayList<Chromosome>(populationSize);
+		ArrayList<Chromosome> genePoolB = new ArrayList<Chromosome>(populationSize);
+		while (generation++ > 0) { /*if we overflow into negatives, then our code sucks so bad we should just stop and reconsider our life choices.*/
+			ArrayList<Chromosome> pool, poolBuffer;
+			/*we'll use the generation number to determine
+			 which pool to use as a buffer and which to not*/
+			if (generation % 2 == 0) {
+				pool = genePoolA;
+				poolBuffer = genePoolB;
+			} else {
+				pool = genePoolB;
+				poolBuffer = genePoolA;
 			}
-		}
-
-		public final void ScoreChromo(int target) {
-			// summation = addUp();
-		}
-
-		private final int addUp() {
-			return 0;
-		}
-
-		public final static String decodeChromo(StringBuffer chromosome) {
-			StringBuffer decode = new StringBuffer(0);
-			for (int i = 0; i < chromosome.length(); i += 4) {
-				int parsedBits = Integer.parseInt(chromosome.substring(i, i + 4));
-				if (parsedBits < geneTable.length){
-					decode.append(parsedBits);
-				}
+			poolBuffer.clear();
+			// iterating through for loop backwards, because we are moving members of
+			// one pool into the other
+			for (int i = pool.size() - 1; i >= 0; i -= 2) {
+				Chromosome cOne = pullMemberFromPool(pool);
+				Chromosome cTwo = pullMemberFromPool(pool);
 			}
-			return decode.toString();
 		}
 	}
 
+	private Chromosome pullMemberFromPool(ArrayList<Chromosome> pool) {
+		// get the pool's total fitness.
+		double total = 0d;
+		for (Chromosome currentMember : pool) {
+			total += currentMember.getScore();
+		}
+		// Generate random number between 0 & total fitness
+		double slice = total * rand.nextDouble();
+
+		// I'm stopping here. Reading off the java translation of the original code
+		// is really bad. The person that did it didn't know java and probably
+		// didn't know c++ either. Going directly to the C++ and translating myself
+		// in package 'attempt2'.
+		return null;
+	}
 }
