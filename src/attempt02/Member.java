@@ -27,8 +27,9 @@ public class Member {
             return fitness;
         }
         
-        public void scoreFitness(){
+        public float scoreFitness(){
             fitness = 0;
+            return getFitness();
         }
 
 	private static String randomChromosome() {
@@ -38,4 +39,9 @@ public class Member {
 		}
 		return result.toString();
 	}
+        
+        /*@Override
+        public String toString(){
+            return chromosome;
+        }*/
 }

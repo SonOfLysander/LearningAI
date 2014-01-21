@@ -31,7 +31,14 @@ public class Main {
                 mainPool = poolB;
                 bufferPool = poolA;
             }
-            
+            float totalPopulationFitness = 0f;
+            for (int j = 0; j < mainPool.size(); j++){
+                if (mainPool.get(j).scoreFitness() == 999f){
+                    System.out.println("Eureyka, the computer has found a solution");
+                    System.out.println();
+                }
+                totalPopulationFitness += mainPool.get(j).getFitness();
+            }
         }
     }
 }
