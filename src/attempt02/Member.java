@@ -22,6 +22,14 @@ public class Member {
 		this.chromosome = chromosome;
 		this.fitness = 0;
 	}
+        
+        public float getFitness(){
+            return fitness;
+        }
+        
+        public void scoreFitness(){
+            fitness = 0;
+        }
 
 	private static String randomChromosome() {
 		StringBuilder result = new StringBuilder();
