@@ -23,6 +23,16 @@ public class Chromosome {
 		public int getVal() {
 			return Integer.parseInt(bits, 2);
 		}
+
+		public void attemptMutate() {
+			for (int i = 0; i < bits.length(); i++) {
+				if (SimpleLib.rand.nextFloat() < Chromosome.MUTATION_RATE) {
+					StringBuilder sb = new StringBuilder(bits);
+					sb.setCharAt(i, bits.charAt(i) == '0' ? '1' : '0');
+					bits = sb.toString();
+				}
+			}
+		}
 	}
 
 	enum Operator {
@@ -44,7 +54,13 @@ public class Chromosome {
 		}
 	}
 
-	public int parseGenes() {
+	public void mutate() {
+		for (int i = 0; i < genes.length; i++) {
+			genes[i].attemptMutate();
+		}
+	}
+
+	private int parseGene() {
 		int result = 0;
 		boolean operatorMode = false;
 		Operator lastOperator = Operator.Add;
@@ -91,5 +107,12 @@ public class Chromosome {
 			}
 		}
 		return result;
+	}
+
+	public float chromosomeFitness(int targetValue) {
+		int currentValue = this.parseGene();
+		if (currentValue == targetValue)
+			return 999f; // seems... arbitrary...
+		return 1 / Math.abs((targetValue - currentValue));
 	}
 }

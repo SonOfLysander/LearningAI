@@ -10,7 +10,7 @@ public class SimpleLib {
 		}
 	}
 
-	private static Random rand = new Random();
+	public static final Random rand = new Random();
 
 	public static int randMinMax(int min, int max) {
 		if (max < min) {
