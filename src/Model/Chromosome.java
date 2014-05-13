@@ -35,7 +35,7 @@ public class Chromosome {
 
 	private Gene[] genes; // this was originally a byte array, but it's freaking
 							// difficult to write byte literals in java. Why?
-							// Who knows. For now we're int-ing it up.
+							// Who knows. For now we're Gene[]-ing it up.
 
 	public Chromosome() {
 		genes = new Gene[CHROMOSOME_LENGTH];
