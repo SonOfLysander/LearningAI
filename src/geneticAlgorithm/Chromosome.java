@@ -23,17 +23,19 @@ public class Chromosome {
 		return genes;
 	}
 
-	public Chromosome crossover(Chromosome other) {
-		byte[] geneArray = longToBytes(getGenes());
-		byte[] otherArray = longToBytes(other.getGenes());
-		int crossoverIndex = rand.nextInt(geneArray.length);
-		byte[] crossedGenes = new byte[geneArray.length];
-		for (int i = 0; i < crossedGenes.length; i++) {
-			crossedGenes[i] = i < crossoverIndex ? geneArray[i] : otherArray[i];
+	public static Chromosome crossover(Chromosome chromoA, Chromosome chromoB) {
+		long geneA = chromoA.getGenes(), geneB = chromoB.getGenes();
+		long crossedGene = 0, binaryOr = 0xF;
+		int crossoverIndex = rand.nextInt(Long.SIZE / 4);
+		// int crossoverIndex = rand.nextInt(geneArray.length);
+		for (int i = 0; i < Long.SIZE / 4; i++) {
+			long currentGene = (i < crossoverIndex ? geneA : geneB);
+			crossedGene |= (currentGene >> (i * 4)) & binaryOr;
 		}
-		return new Chromosome(bytesToLong(crossedGenes));
+
+		return new Chromosome(crossedGene);
 	}
-	
+
 	@Override
 	public String toString() {
 		return Long.toBinaryString(genes);
