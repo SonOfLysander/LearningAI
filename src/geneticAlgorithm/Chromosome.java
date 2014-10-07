@@ -40,4 +40,26 @@ public class Chromosome {
 	public String toString() {
 		return Long.toBinaryString(genes);
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (genes ^ (genes >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Chromosome))
+			return false;
+		Chromosome other = (Chromosome) obj;
+		if (genes != other.genes)
+			return false;
+		return true;
+	}
 }
