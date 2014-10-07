@@ -40,35 +40,4 @@ public class Chromosome {
 	public String toString() {
 		return Long.toBinaryString(genes);
 	}
-
-	/**
-	 * Taken from StackOverflow. Simple utility method to convert a long into a
-	 * byte[].
-	 * 
-	 * @author http://stackoverflow.com/a/4485196/1478636
-	 * 
-	 * @param x
-	 * @return
-	 */
-	private byte[] longToBytes(long x) {
-		ByteBuffer buffer = ByteBuffer.allocate(Long.SIZE);
-		buffer.putLong(x);
-		return buffer.array();
-	}
-
-	/**
-	 * Taken from StackOverflow. Simple utility method to convert a byte[] into
-	 * a long
-	 * 
-	 * @author http://stackoverflow.com/a/4485196/1478636
-	 * 
-	 * @param bytes
-	 * @return
-	 */
-	private long bytesToLong(byte[] bytes) {
-		ByteBuffer buffer = ByteBuffer.allocate(Long.SIZE);
-		buffer.put(bytes);
-		buffer.flip();// need flip
-		return buffer.getLong();
-	}
 }
