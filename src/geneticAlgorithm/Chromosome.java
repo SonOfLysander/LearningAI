@@ -27,13 +27,21 @@ public class Chromosome {
 	public static Chromosome crossover(Chromosome chromoA, Chromosome chromoB) {
 		final int binaryFourBits = 0xF;
 		long geneA = chromoA.getGenes(), geneB = chromoB.getGenes(), crossedGene = 0;
+		// Randomly, we will switch genes around. We do this to prevent any bias
+		// towards which one will be the prefix or suffix.
+		if (rand.nextBoolean()) {
+			geneA ^= geneB;
+			geneB ^= geneA;
+			geneA ^= geneB;
+		}
+		// Determine the index for which we will switch two genes from
 		int crossoverIndex = rand.nextInt((Long.SIZE - 8) / 4) + 1;
 		for (int i = 0; i < Long.SIZE / 4; i++) {
 			long currentGene = (i < crossoverIndex ? geneA : geneB);
 			crossedGene = crossedGene << 4;
 			crossedGene |= ((currentGene >> (Long.SIZE - Long.SIZE - ((i + 1) * 4))) & binaryFourBits);
 		}
-
+		// Give us the new gene
 		return new Chromosome(crossedGene);
 	}
 	public int parseToInt() {

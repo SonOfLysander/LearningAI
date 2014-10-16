@@ -45,8 +45,20 @@ public class ChromosomeTest {
 	@Test
 	public void testCrossover() {
 		for (int i = 0; i < 25000; i++) {
-			Chromosome a = new Chromosome(), b = new Chromosome(), c;
+			Chromosome a = new Chromosome(), b = new Chromosome(), c, d;
 			c = Chromosome.crossover(a, b);
+			d = Chromosome.crossover(a, b);
+			try {
+				assertNotEquals(c, d);
+			} catch (AssertionError e) {
+				// We catch the assertion failure, not to hinder the test; but
+				// to get more verbose output on failure.
+				System.err.println(a);
+				System.err.println(b);
+				System.err.println(c);
+				System.err.println(d);
+				throw e;
+			}
 			/*
 			 * There really isn't a good way to make this assertion. The problem
 			 * is that two genes can be completely different but still have the
@@ -56,5 +68,4 @@ public class ChromosomeTest {
 			// assertNotEquals(b, c);
 		}
 	}
-
 }
