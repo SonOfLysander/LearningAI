@@ -25,7 +25,7 @@ public class Chromosome {
 	}
 
 	public static Chromosome crossover(Chromosome chromoA, Chromosome chromoB) {
-		final int binaryFourBits = 0xF;
+		final int binarySingleBit = 0b1;
 		long geneA = chromoA.getGenes(), geneB = chromoB.getGenes(), crossedGene = 0;
 		// Randomly, we will switch genes around. We do this to prevent any bias
 		// towards which one will be the prefix or suffix.
@@ -35,11 +35,14 @@ public class Chromosome {
 			geneA ^= geneB;
 		}
 		// Determine the index for which we will switch two genes from
-		int crossoverIndex = rand.nextInt((Long.SIZE - 8) / 4) + 1;
-		for (int i = 0; i < Long.SIZE / 4; i++) {
+		int crossoverIndex = rand.nextInt(Long.SIZE - 2) + 1;
+		for (int i = 1; i < Long.SIZE + 1; i++) {
 			long currentGene = (i < crossoverIndex ? geneA : geneB);
-			crossedGene = crossedGene << 4;
-			crossedGene |= ((currentGene >> (Long.SIZE - Long.SIZE - ((i + 1) * 4))) & binaryFourBits);
+			crossedGene = crossedGene << 1;
+			// System.out.println(Long.toBinaryString(currentGene));
+			currentGene = currentGene >> (Long.SIZE - (i)) & binarySingleBit;
+			// System.out.println(Long.toBinaryString(currentGene));
+			crossedGene |= currentGene;
 		}
 		// Give us the new gene
 		return new Chromosome(crossedGene);
@@ -83,7 +86,13 @@ public class Chromosome {
 
 	@Override
 	public String toString() {
-		return Long.toBinaryString(genes);
+		StringBuilder result = new StringBuilder(64);
+		String binaryString = Long.toBinaryString(genes);
+		for (int i = 0, binaryLength = Long.SIZE - binaryString.length(); i < binaryLength; i++) {
+			result.append("0");
+		}
+		result.append(binaryString);
+		return result.toString();
 	}
 
 	@Override
