@@ -38,55 +38,37 @@ public class Chromosome {
 	}
 
 	public int parseToInt() {
-		// ArrayList<Byte> parsableArray = new ArrayList<>(Long.SIZE / 4);
-		// boolean numerical = true;
-		int sum = 0, opperator = 10;
+		int parsedNumber = 0, opperator = 10;
 		boolean lookingForNumber = true;
 		for (int i = 0; i < Long.SIZE / 4; i++) {
 			int currentNumber = (int) ((genes >> (Long.SIZE - Long.SIZE - ((i + 1) * 4))) & 0xFF);
-			switch (currentNumber) {
-				case 0 :
-				case 1 :
-				case 2 :
-				case 3 :
-				case 4 :
-				case 5 :
-				case 6 :
-				case 7 :
-				case 8 :
-				case 9 :
-					if (lookingForNumber) {
-						switch (opperator) {
-							case 10 :
-								sum += currentNumber;
-								break;
-							case 11 :
-								sum -= currentNumber;
-								break;
-							case 12 :
-								sum *= currentNumber;
-								break;
-							case 13 :
-								sum /= currentNumber;
-								break;
-						}
-						lookingForNumber = false;
+			if (currentNumber >= 0 && currentNumber <= 9) {
+				if (lookingForNumber) {
+					switch (opperator) {
+						case 10 :
+							parsedNumber += currentNumber;
+							break;
+						case 11 :
+							parsedNumber -= currentNumber;
+							break;
+						case 12 :
+							parsedNumber *= currentNumber;
+							break;
+						case 13 :
+							parsedNumber /= currentNumber;
+							break;
 					}
-					break;
-				case 10 : // +
-				case 11 : // -
-				case 12 : // *
-				case 13 : // /
-					if (!lookingForNumber) {
-						opperator = currentNumber;
-						lookingForNumber = true;
-					}
-					break;
-				default :
-					continue;
+					lookingForNumber = false;
+				}
+			} else if (currentNumber >= 10 && currentNumber <= 13) {
+				if (!lookingForNumber) {
+					opperator = currentNumber;
+					lookingForNumber = true;
+				}
+				break;
 			}
 		}
-		return 0;
+		return parsedNumber;
 	}
 	@Override
 	public String toString() {
