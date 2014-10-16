@@ -72,6 +72,7 @@ public class Chromosome {
 		}
 		return parsedNumber;
 	}
+
 	@Override
 	public String toString() {
 		return Long.toBinaryString(genes);

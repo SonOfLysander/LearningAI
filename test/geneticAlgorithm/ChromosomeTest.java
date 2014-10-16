@@ -22,6 +22,7 @@ public class ChromosomeTest {
 
 	@Test
 	public void testGetGenes() {
+		assertEquals(-1, new Chromosome(-1).getGenes());
 		assertEquals(1, new Chromosome(1).getGenes());
 		assertEquals(0, new Chromosome(0).getGenes());
 		assertEquals(Long.MAX_VALUE, new Chromosome(Long.MAX_VALUE).getGenes());
