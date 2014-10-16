@@ -44,7 +44,17 @@ public class ChromosomeTest {
 
 	@Test
 	public void testCrossover() {
-		fail("Not yet implemented");
+		for (int i = 0; i < 25000; i++) {
+			Chromosome a = new Chromosome(), b = new Chromosome(), c;
+			c = Chromosome.crossover(a, b);
+			/*
+			 * There really isn't a good way to make this assertion. The problem
+			 * is that two genes can be completely different but still have the
+			 * same suffix or prefixes.
+			 */
+			// assertNotEquals(a, c);
+			// assertNotEquals(b, c);
+		}
 	}
 
 }

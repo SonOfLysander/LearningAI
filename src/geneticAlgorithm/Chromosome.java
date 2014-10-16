@@ -25,23 +25,23 @@ public class Chromosome {
 	}
 
 	public static Chromosome crossover(Chromosome chromoA, Chromosome chromoB) {
-		long geneA = chromoA.getGenes(), geneB = chromoB.getGenes();
-		long crossedGene = 0, binaryOr = 0xF;
-		int crossoverIndex = rand.nextInt(Long.SIZE / 4);
-		// int crossoverIndex = rand.nextInt(geneArray.length);
+		final int binaryFourBits = 0xF;
+		long geneA = chromoA.getGenes(), geneB = chromoB.getGenes(), crossedGene = 0;
+		int crossoverIndex = rand.nextInt((Long.SIZE - 8) / 4) + 1;
 		for (int i = 0; i < Long.SIZE / 4; i++) {
 			long currentGene = (i < crossoverIndex ? geneA : geneB);
-			crossedGene |= (currentGene >> (i * 4)) & binaryOr;
+			crossedGene = crossedGene << 4;
+			crossedGene |= ((currentGene >> (Long.SIZE - Long.SIZE - ((i + 1) * 4))) & binaryFourBits);
 		}
 
 		return new Chromosome(crossedGene);
 	}
-
 	public int parseToInt() {
+		final int binaryFourBits = 0xF;
 		int parsedNumber = 0, opperator = 10;
 		boolean lookingForNumber = true;
 		for (int i = 0; i < Long.SIZE / 4; i++) {
-			int currentNumber = (int) ((genes >> (Long.SIZE - Long.SIZE - ((i + 1) * 4))) & 0xF);
+			int currentNumber = (int) ((genes >> (Long.SIZE - Long.SIZE - ((i + 1) * 4))) & binaryFourBits);
 			if (currentNumber >= 0 && currentNumber <= 9) {
 				if (lookingForNumber) {
 					switch (opperator) {
