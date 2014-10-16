@@ -41,7 +41,7 @@ public class Chromosome {
 		int parsedNumber = 0, opperator = 10;
 		boolean lookingForNumber = true;
 		for (int i = 0; i < Long.SIZE / 4; i++) {
-			int currentNumber = (int) ((genes >> (Long.SIZE - Long.SIZE - ((i + 1) * 4))) & 0xFF);
+			int currentNumber = (int) ((genes >> (Long.SIZE - Long.SIZE - ((i + 1) * 4))) & 0xF);
 			if (currentNumber >= 0 && currentNumber <= 9) {
 				if (lookingForNumber) {
 					switch (opperator) {
@@ -55,8 +55,11 @@ public class Chromosome {
 							parsedNumber *= currentNumber;
 							break;
 						case 13 :
-							parsedNumber /= currentNumber;
+							if (currentNumber != 0) // avoid divide by 0
+								parsedNumber /= currentNumber;
 							break;
+						default :
+							continue;
 					}
 					lookingForNumber = false;
 				}
@@ -65,7 +68,6 @@ public class Chromosome {
 					opperator = currentNumber;
 					lookingForNumber = true;
 				}
-				break;
 			}
 		}
 		return parsedNumber;

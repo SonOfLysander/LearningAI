@@ -33,6 +33,15 @@ public class ChromosomeTest {
 	}
 
 	@Test
+	public void testParseChromosome() {
+		int i;
+		for (i = 0; i < 25000; i++) {
+			new Chromosome().parseToInt();
+		}
+		assertEquals(25000, i);
+	}
+
+	@Test
 	public void testCrossover() {
 		fail("Not yet implemented");
 	}
