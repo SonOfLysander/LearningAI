@@ -1,6 +1,7 @@
 package geneticAlgorithm;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Chromosome {
@@ -36,6 +37,57 @@ public class Chromosome {
 		return new Chromosome(crossedGene);
 	}
 
+	public int parseToInt() {
+		// ArrayList<Byte> parsableArray = new ArrayList<>(Long.SIZE / 4);
+		// boolean numerical = true;
+		int sum = 0, opperator = 10;
+		boolean lookingForNumber = true;
+		for (int i = 0; i < Long.SIZE / 4; i++) {
+			int currentNumber = (int) ((genes >> (Long.SIZE - Long.SIZE - ((i + 1) * 4))) & 0xFF);
+			switch (currentNumber) {
+				case 0 :
+				case 1 :
+				case 2 :
+				case 3 :
+				case 4 :
+				case 5 :
+				case 6 :
+				case 7 :
+				case 8 :
+				case 9 :
+					if (lookingForNumber) {
+						switch (opperator) {
+							case 10 :
+								sum += currentNumber;
+								break;
+							case 11 :
+								sum -= currentNumber;
+								break;
+							case 12 :
+								sum *= currentNumber;
+								break;
+							case 13 :
+								sum /= currentNumber;
+								break;
+						}
+						lookingForNumber = false;
+					}
+					break;
+				case 10 : // +
+				case 11 : // -
+				case 12 : // *
+				case 13 : // /
+					if (!lookingForNumber) {
+						opperator = currentNumber;
+						lookingForNumber = true;
+					}
+					break;
+				default :
+					continue;
+			}
+		}
+		return 0;
+	}
 	@Override
 	public String toString() {
 		return Long.toBinaryString(genes);
