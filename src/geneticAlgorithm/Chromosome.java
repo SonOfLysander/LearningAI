@@ -39,9 +39,7 @@ public class Chromosome {
 		for (int i = 1; i < Long.SIZE + 1; i++) {
 			long currentGene = (i < crossoverIndex ? geneA : geneB);
 			crossedGene = crossedGene << 1;
-			// System.out.println(Long.toBinaryString(currentGene));
 			currentGene = currentGene >> (Long.SIZE - i) & binarySingleBit;
-			// System.out.println(Long.toBinaryString(currentGene));
 			crossedGene |= currentGene;
 		}
 		// Give us the new gene
