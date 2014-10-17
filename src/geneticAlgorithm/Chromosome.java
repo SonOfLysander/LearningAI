@@ -101,6 +101,10 @@ public class Chromosome {
 		b.setGenes(crossedGeneB);
 	}
 
+	public static void mutate(Chromosome a) {
+		mutate(0.001f, a);
+	}
+
 	public static void mutate(float mutationRate, Chromosome a) {
 		if (mutationRate < 0 || mutationRate > 1)
 			throw new IllegalArgumentException(
