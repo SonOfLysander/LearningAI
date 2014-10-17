@@ -7,7 +7,6 @@ import java.util.Random;
 public class Chromosome {
 
 	private static final Random rand = new Random();
-	private static final float crossoverRate = 0.7f;
 	private static final double mutationRate = 0.001f;
 
 	private long genes;
@@ -24,9 +23,19 @@ public class Chromosome {
 		return genes;
 	}
 
-	public static Chromosome crossover(Chromosome chromoA, Chromosome chromoB) {
+	private void setGenes(long newGene) {
+		genes = newGene;
+	}
+
+	public static void crossover(float crossoverRate, Chromosome a, Chromosome b) {
+		if (crossoverRate < 0 || crossoverRate > 1)
+			throw new IllegalArgumentException(
+					"crossoverRate must be between 0 and 1");
+		if (rand.nextFloat() >= crossoverRate)
+			return;
 		final int binarySingleBit = 0b1;
-		long geneA = chromoA.getGenes(), geneB = chromoB.getGenes(), crossedGene = 0;
+		long geneA = a.getGenes(), geneB = b.getGenes();
+		long crossedGeneA = 0, crossedGeneB = 0;
 		// Randomly, we will switch genes around. We do this to prevent any bias
 		// towards which one will be the prefix or suffix.
 		if (rand.nextBoolean()) {
@@ -37,13 +46,18 @@ public class Chromosome {
 		// Determine the index for which we will switch two genes from
 		int crossoverIndex = rand.nextInt(Long.SIZE - 2) + 1;
 		for (int i = 1; i < Long.SIZE + 1; i++) {
-			long currentGene = (i < crossoverIndex ? geneA : geneB);
-			crossedGene = crossedGene << 1;
-			currentGene = currentGene >> (Long.SIZE - i) & binarySingleBit;
-			crossedGene |= currentGene;
+			long longA = (i < crossoverIndex ? geneA : geneB);
+			long longB = (i < crossoverIndex ? geneB : geneA);
+			crossedGeneA = crossedGeneA << 1;
+			crossedGeneB = crossedGeneB << 1;
+			longA = longA >> (Long.SIZE - i) & binarySingleBit;
+			longB = longB >> (Long.SIZE - i) & binarySingleBit;
+			crossedGeneA |= longA;
+			crossedGeneB |= longB;
 		}
-		// Give us the new gene
-		return new Chromosome(crossedGene);
+		// Give the chromosomes the newly swapped genes.
+		a.setGenes(crossedGeneA);
+		b.setGenes(crossedGeneB);
 	}
 	public int parseToValue() {
 		final int binaryFourBits = 0xF;

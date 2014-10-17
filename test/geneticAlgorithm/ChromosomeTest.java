@@ -45,9 +45,14 @@ public class ChromosomeTest {
 	@Test
 	public void testCrossover() {
 		for (int i = 0; i < 25000; i++) {
-			Chromosome a = new Chromosome(), b = new Chromosome(), c, d;
-			c = Chromosome.crossover(a, b);
-			d = Chromosome.crossover(a, b);
+			Chromosome a = new Chromosome(), b = new Chromosome();
+			long aGene = a.getGenes(), bGene = b.getGenes();
+			// System.out.println(a);
+			// System.out.println(b);
+			Chromosome.crossover(1f, a, b);
+			// System.out.println(a);
+			// System.out.println(b);
+			// System.out.println();
 		}
 	}
 }
