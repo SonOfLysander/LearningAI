@@ -27,38 +27,6 @@ public class Chromosome {
 		genes = newGene;
 	}
 
-	public static void crossover(float crossoverRate, Chromosome a, Chromosome b) {
-		if (crossoverRate < 0 || crossoverRate > 1)
-			throw new IllegalArgumentException(
-					"crossoverRate must be between 0 and 1");
-		if (rand.nextFloat() >= crossoverRate)
-			return;
-		final int binarySingleBit = 0b1;
-		long geneA = a.getGenes(), geneB = b.getGenes();
-		long crossedGeneA = 0, crossedGeneB = 0;
-		// Randomly, we will switch genes around. We do this to prevent any bias
-		// towards which one will be the prefix or suffix.
-		if (rand.nextBoolean()) {
-			geneA ^= geneB;
-			geneB ^= geneA;
-			geneA ^= geneB;
-		}
-		// Determine the index for which we will switch two genes from
-		int crossoverIndex = rand.nextInt(Long.SIZE - 2) + 1;
-		for (int i = 1; i < Long.SIZE + 1; i++) {
-			long longA = (i < crossoverIndex ? geneA : geneB);
-			long longB = (i < crossoverIndex ? geneB : geneA);
-			crossedGeneA = crossedGeneA << 1;
-			crossedGeneB = crossedGeneB << 1;
-			longA = longA >> (Long.SIZE - i) & binarySingleBit;
-			longB = longB >> (Long.SIZE - i) & binarySingleBit;
-			crossedGeneA |= longA;
-			crossedGeneB |= longB;
-		}
-		// Give the chromosomes the newly swapped genes.
-		a.setGenes(crossedGeneA);
-		b.setGenes(crossedGeneB);
-	}
 	public int parseToValue() {
 		final int binaryFourBits = 0xF;
 		int parsedNumber = 0, opperator = 10;
@@ -96,6 +64,70 @@ public class Chromosome {
 		return parsedNumber;
 	}
 
+	public static void crossover(Chromosome a, Chromosome b) {
+		crossover(0.7f, a, b);
+	}
+
+	public static void crossover(float crossoverRate, Chromosome a, Chromosome b) {
+		if (crossoverRate < 0 || crossoverRate > 1)
+			throw new IllegalArgumentException(
+					"crossoverRate must be between 0 and 1");
+		if (rand.nextFloat() >= crossoverRate)
+			return;
+		final int binarySingleBit = 0b1;
+		long geneA = a.getGenes(), geneB = b.getGenes();
+		long crossedGeneA = 0, crossedGeneB = 0;
+		// Randomly, we will switch genes around. We do this to prevent any bias
+		// towards which one will be the prefix or suffix.
+		if (rand.nextBoolean()) {
+			geneA ^= geneB;
+			geneB ^= geneA;
+			geneA ^= geneB;
+		}
+		// Determine the index for which we will switch two genes from
+		int crossoverIndex = rand.nextInt(Long.SIZE - 2) + 1;
+		for (int i = 1; i < Long.SIZE + 1; i++) {
+			long longA = (i < crossoverIndex ? geneA : geneB);
+			long longB = (i < crossoverIndex ? geneB : geneA);
+			crossedGeneA = crossedGeneA << 1;
+			crossedGeneB = crossedGeneB << 1;
+			longA = longA >> (Long.SIZE - i) & binarySingleBit;
+			longB = longB >> (Long.SIZE - i) & binarySingleBit;
+			crossedGeneA |= longA;
+			crossedGeneB |= longB;
+		}
+		// Give the chromosomes the newly swapped genes.
+		a.setGenes(crossedGeneA);
+		b.setGenes(crossedGeneB);
+	}
+
+	public static void mutate(float mutationRate, Chromosome a) {
+		if (mutationRate < 0 || mutationRate > 1)
+			throw new IllegalArgumentException(
+					"crossoverRate must be between 0 and 1");
+		if (rand.nextFloat() >= mutationRate)
+			return;
+		// We need to pick a random bit
+		int randomPosition = rand.nextInt(Long.SIZE);
+		// randomPosition = 32;
+		long genes = a.getGenes();
+		// Get the bit we will flip
+		long thatBit = (genes >> randomPosition) & 0x1;
+		// Flip the bit to it's inverse
+		if (thatBit == 1) {
+			genes ^= thatBit << randomPosition;
+		} else {
+			// genes = genes & ~(1 << randomPosition);
+			genes = genes | (1l << randomPosition);
+		}
+
+		// SET AND DEBUG
+		System.out.println(a);
+		a.setGenes(genes);
+		System.out.println(a);
+		System.out.println("We're flipping " + thatBit + " at position "
+				+ randomPosition);
+	}
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder(64);

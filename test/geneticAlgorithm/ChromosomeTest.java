@@ -46,13 +46,19 @@ public class ChromosomeTest {
 	public void testCrossover() {
 		for (int i = 0; i < 25000; i++) {
 			Chromosome a = new Chromosome(), b = new Chromosome();
-			long aGene = a.getGenes(), bGene = b.getGenes();
-			// System.out.println(a);
-			// System.out.println(b);
 			Chromosome.crossover(1f, a, b);
-			// System.out.println(a);
-			// System.out.println(b);
-			// System.out.println();
+		}
+	}
+
+	@Test
+	public void testMutate() {
+		for (int i = 0; i < 50000; i++) {
+			Chromosome a = new Chromosome();
+			long gene = a.getGenes();
+			Chromosome.mutate(1f, a);
+			assertNotEquals(gene, a.getGenes());
+			System.out.println("on iteration " + i);
+			System.out.println();
 		}
 	}
 }
