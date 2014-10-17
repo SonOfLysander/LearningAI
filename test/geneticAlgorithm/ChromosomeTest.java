@@ -37,7 +37,7 @@ public class ChromosomeTest {
 	public void testParseChromosome() {
 		int i;
 		for (i = 0; i < 25000; i++) {
-			new Chromosome().parseToInt();
+			new Chromosome().parseToValue();
 		}
 		assertEquals(25000, i);
 	}

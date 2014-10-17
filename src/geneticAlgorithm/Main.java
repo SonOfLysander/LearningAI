@@ -5,63 +5,17 @@ import java.util.Stack;
 
 public class Main {
 
-	private static class ToTwentyThreeFitness extends FitnessFunctor {
+	private static class ToFortyTwoFitness implements FitnessFunctor {
 
-		private ToTwentyThreeFitness() {
+		private ToFortyTwoFitness() {
 		}
 
 		@Override
-		public int getFitness(long gene) {
-			int fitness = 0;
-			boolean onOpperator = false;
-			char currentOpperator = '+';
-			byte[] bytes = ByteBuffer.allocate(8).putLong(gene).array();
-			for (int i = 0; i < bytes.length; i++) {
-				if (onOpperator == false) {
-					if (bytes[i] >= 0 && bytes[i] < 10) {
-						onOpperator = true;
-						switch (currentOpperator) {
-						case '+':
-							fitness += bytes[i];
-							break;
-						case '-':
-							fitness -= bytes[i];
-							break;
-						case '*':
-							fitness *= bytes[i];
-							break;
-						case '/':
-							fitness /= bytes[i];
-							break;
-						}
-					} else {
-						continue;
-					}
-				} else {
-					switch (bytes[i]) {
-					case 10:
-						currentOpperator = '+';
-						onOpperator = false;
-						break;
-					case 11:
-						currentOpperator = '-';
-						onOpperator = false;
-						break;
-					case 12:
-						currentOpperator = '*';
-						onOpperator = false;
-						break;
-					case 13:
-						currentOpperator = '/';
-						onOpperator = false;
-						break;
-					default:
-						continue;
-					}
-				}
-			}
-
-			return fitness;
+		public int evaluateFitness(Chromosome chromosome) {
+			int geneValue = chromosome.parseToValue();
+			if (geneValue == 42)
+				return 42;
+			return (int) (1 / (double) (42 - geneValue));
 		}
 	}
 
@@ -72,11 +26,5 @@ public class Main {
 		for (int i = Long.SIZE / 4; i >= 0; i--) {
 
 		}
-		// for (int i = 0; i < ; i++) {
-		// byte tmp = (byte) ((genes >> Long.SIZE - ) & 0xF);
-		// System.out.print(Integer.toBinaryString(tmp) + " ");
-		// }
-		// System.out.println(new Chromosome());
-		// System.out.println(new Chromosome());
 	}
 }

@@ -45,7 +45,7 @@ public class Chromosome {
 		// Give us the new gene
 		return new Chromosome(crossedGene);
 	}
-	public int parseToInt() {
+	public int parseToValue() {
 		final int binaryFourBits = 0xF;
 		int parsedNumber = 0, opperator = 10;
 		boolean lookingForNumber = true;
