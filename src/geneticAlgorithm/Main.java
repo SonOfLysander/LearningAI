@@ -1,7 +1,8 @@
 package geneticAlgorithm;
 
-import java.nio.ByteBuffer;
-import java.util.Stack;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class Main {
 
@@ -20,11 +21,27 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		Chromosome testChrome = new Chromosome();
-		System.out.println(testChrome);
-		long genes = testChrome.getGenes();
-		for (int i = Long.SIZE / 4; i >= 0; i--) {
+		FitnessFunctor fitnessFunctor = new ToFortyTwoFitness();
+		final int populationSize = 20;
+		int generation = 0;
+		Map<Boolean, Chromosome[]> populationPools = new TreeMap<Boolean, Chromosome[]>();
+		populationPools.put(true, new Chromosome[populationSize]);
 
+		// Initialize the first population pool. We will use the other pool for
+		// buffering and we will alternate pools.
+		{
+			Chromosome[] originalPool = populationPools.get(true);
+			for (int i = 0; i < originalPool.length; i++) {
+				originalPool[i] = new Chromosome();
+			}
+		}
+
+		boolean solutionFound = false;
+		while (!solutionFound) {
+			boolean buffer = generation++ % 2 == 0;
+			Chromosome[] originalPool = populationPools.get(!buffer);
+			Chromosome[] bufferPool = populationPools.get(buffer);
+			
 		}
 	}
 }
