@@ -57,8 +57,6 @@ public class ChromosomeTest {
 			long gene = a.getGenes();
 			Chromosome.mutate(1f, a);
 			assertNotEquals(gene, a.getGenes());
-			System.out.println("on iteration " + i);
-			System.out.println();
 		}
 	}
 }

@@ -120,13 +120,8 @@ public class Chromosome {
 			// genes = genes & ~(1 << randomPosition);
 			genes = genes | (1l << randomPosition);
 		}
-
-		// SET AND DEBUG
-		System.out.println(a);
+		// Set the new mutation
 		a.setGenes(genes);
-		System.out.println(a);
-		System.out.println("We're flipping " + thatBit + " at position "
-				+ randomPosition);
 	}
 	@Override
 	public String toString() {
