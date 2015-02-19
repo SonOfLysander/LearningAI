@@ -5,8 +5,6 @@ package io.paulbaker.ai.simple_genetic_algorithm;
  */
 public class Application {
   public static void main(String[] args) {
-    System.out.println(Long.SIZE);
-    System.out.println(Long.SIZE / 4);
-
+    Population population = new Population(100, 0.001d, 0.7d);
   }
 }

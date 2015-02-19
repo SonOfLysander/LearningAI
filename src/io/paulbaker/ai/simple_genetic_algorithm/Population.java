@@ -24,9 +24,11 @@ public class Population {
 
   public Population(int populationSize, double mutationRate, double crossOverRate) {
     populationMembers = new PopulationMember[populationSize];
+    for (int i = 0; i < populationMembers.length; i++) {
+      populationMembers[i] = new PopulationMember();
+    }
     this.mutationRate = mutationRate;
     this.crossOverRate = crossOverRate;
-
   }
 
 }
