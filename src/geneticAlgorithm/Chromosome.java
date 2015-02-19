@@ -101,6 +101,11 @@ public class Chromosome {
 		b.setGenes(crossedGeneB);
 	}
 
+	/**
+	 * 
+	 * 
+	 * @param a
+	 */
 	public static void mutate(Chromosome a) {
 		mutate(0.001f, a);
 	}

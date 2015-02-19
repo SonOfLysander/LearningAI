@@ -16,7 +16,7 @@ public class Main {
 			int geneValue = chromosome.parseToValue();
 			if (geneValue == 42)
 				return 42;
-			return (int) (1 / (double) (42 - geneValue));
+			return (int) (1d / (42 - geneValue));
 		}
 	}
 
@@ -41,7 +41,6 @@ public class Main {
 			boolean buffer = generation++ % 2 == 0;
 			Chromosome[] originalPool = populationPools.get(!buffer);
 			Chromosome[] bufferPool = populationPools.get(buffer);
-			
 		}
 	}
 }
