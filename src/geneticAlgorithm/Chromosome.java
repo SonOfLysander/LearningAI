@@ -30,13 +30,13 @@ public class Chromosome {
 
   public int parseToValue() {
     final int binaryFourBits = 0xF;
-    int parsedNumber = 0, opperator = 10;
+    int parsedNumber = 0, operator = 10;
     boolean lookingForNumber = true;
     for (int i = 0; i < Long.SIZE / 4; i++) {
       int currentNumber = (int) ((genes >> (Long.SIZE - Long.SIZE - ((i + 1) * 4))) & binaryFourBits);
       if (currentNumber >= 0 && currentNumber <= 9) {
         if (lookingForNumber) {
-          switch (opperator) {
+          switch (operator) {
             case 10:
               parsedNumber += currentNumber;
               break;
@@ -58,7 +58,7 @@ public class Chromosome {
       }
       else if (currentNumber >= 10 && currentNumber <= 13) {
         if (!lookingForNumber) {
-          opperator = currentNumber;
+          operator = currentNumber;
           lookingForNumber = true;
         }
       }

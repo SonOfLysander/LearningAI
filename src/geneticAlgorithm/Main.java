@@ -33,8 +33,9 @@ public class Main {
     }
 
     boolean solutionFound = false;
+    boolean buffer = true;
     while (!solutionFound) {
-      boolean buffer = generation++ % 2 == 0;
+      buffer = !buffer;
       Chromosome[] originalPool = populationPools.get(!buffer);
       Chromosome[] bufferPool = populationPools.get(buffer);
     }
