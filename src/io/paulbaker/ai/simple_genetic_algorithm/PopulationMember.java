@@ -50,7 +50,7 @@ public class PopulationMember {
             case 13:
               // If the nibble is 0, we skip it. We can't divide by
               // zero and we don't flip our searching boolean because
-              // we continue until we find a valid option
+              // we continue until we find a valid operation
               if (nibble == 0)
                 continue;
               parsedValue /= nibble;
@@ -65,6 +65,18 @@ public class PopulationMember {
       }
     }
     return parsedValue;
+  }
+
+  public boolean mutate(double mutationRate) {
+    boolean mutated = false;
+    for (int i = 0; i < Long.SIZE; i++) {
+      if (RANDOM.nextDouble() > mutationRate)
+        continue;
+      mutated = true;
+      int inverseBit = (int) ((~(chromosome >> (Long.SIZE - i - 1))) & 0x1);
+      chromosome &= ~(inverseBit << Long.SIZE - i - 1);
+    }
+    return mutated;
   }
 
 }
