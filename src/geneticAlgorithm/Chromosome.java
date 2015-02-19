@@ -34,47 +34,51 @@ public class Chromosome {
     boolean lookingForNumber = true;
     for (int i = 0; i < Long.SIZE / 4; i++) {
       int currentNumber = (int) ((genes >> (Long.SIZE - Long.SIZE - ((i + 1) * 4))) & binaryFourBits);
-      if (currentNumber >= 0 && currentNumber <= 9) {
-        if (lookingForNumber) {
-          switch (operator) {
-            case 10:
-              parsedNumber += currentNumber;
-              break;
-            case 11:
-              parsedNumber -= currentNumber;
-              break;
-            case 12:
-              parsedNumber *= currentNumber;
-              break;
-            case 13:
-              if (currentNumber != 0) // avoid divide by 0
-                parsedNumber /= currentNumber;
-              break;
-            default:
-              continue;
-          }
-          lookingForNumber = false;
+      if (lookingForNumber && currentNumber >= 0 && currentNumber <= 9) {
+        switch (operator) {
+          case 10:
+            parsedNumber += currentNumber;
+            break;
+          case 11:
+            parsedNumber -= currentNumber;
+            break;
+          case 12:
+            parsedNumber *= currentNumber;
+            break;
+          case 13:
+            if (currentNumber != 0) // avoid divide by 0
+              parsedNumber /= currentNumber;
+            break;
+          default:
+            continue;
         }
+        lookingForNumber = false;
       }
-      else if (currentNumber >= 10 && currentNumber <= 13) {
-        if (!lookingForNumber) {
-          operator = currentNumber;
-          lookingForNumber = true;
-        }
+      else if (!lookingForNumber && currentNumber >= 10 && currentNumber <= 13) {
+        operator = currentNumber;
+        lookingForNumber = true;
       }
     }
     return parsedNumber;
   }
 
-  public static void crossover(Chromosome a, Chromosome b) {
-    crossover(0.7f, a, b);
+  /*public void crossover(Chromosome other) {
+    crossover(0.7f, other);
+  }*/
+
+  public void crossover(Chromosome other, float crossOverRate) {
+    crossover(this, other, crossOverRate);
   }
 
-  public static void crossover(float crossoverRate, Chromosome a, Chromosome b) {
-    if (crossoverRate < 0 || crossoverRate > 1)
+  /*public static void crossover(Chromosome a, Chromosome b) {
+    crossover(0.7f, a, b);
+  }*/
+
+  public static void crossover(Chromosome a, Chromosome b, float crossOverRate) {
+    if (crossOverRate < 0 || crossOverRate > 1)
       throw new IllegalArgumentException(
         "crossoverRate must be between 0 and 1");
-    if (rand.nextFloat() >= crossoverRate)
+    if (rand.nextFloat() >= crossOverRate)
       return;
     final int binarySingleBit = 0b1;
     long geneA = a.getGenes(), geneB = b.getGenes();
