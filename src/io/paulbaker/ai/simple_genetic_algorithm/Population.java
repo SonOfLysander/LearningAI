@@ -1,5 +1,7 @@
 package io.paulbaker.ai.simple_genetic_algorithm;
 
+import geneticAlgorithm.*;
+
 import java.util.Iterator;
 import java.util.Random;
 
@@ -29,6 +31,10 @@ public class Population {
     }
     this.mutationRate = mutationRate;
     this.crossOverRate = crossOverRate;
+  }
+
+  public long findTarget(int target, FitnessFunctor fitnessFunctor) {
+    return -1;
   }
 
 }
