@@ -67,6 +67,37 @@ public class PopulationMember {
     return parsedValue;
   }
 
+  public boolean crossOver(PopulationMember otherMember, double crossOverRate) {
+    if (RANDOM.nextDouble() > crossOverRate)
+      return false;
+    final int binarySingleBit = 0b1;
+    long geneA = this.chromosome, geneB = otherMember.chromosome;
+    long crossedGeneA = 0, crossedGeneB = 0;
+    // Randomly, we will switch genes around. We do this to prevent any bias
+    // towards which one will be the prefix or suffix.
+    if (RANDOM.nextBoolean()) {
+      geneA ^= geneB;
+      geneB ^= geneA;
+      geneA ^= geneB;
+    }
+    // Determine the index for which we will switch two genes from
+    int crossoverIndex = RANDOM.nextInt(Long.SIZE - 2) + 1;
+    for (int i = 1; i < Long.SIZE + 1; i++) {
+      long longA = (i < crossoverIndex ? geneA : geneB);
+      long longB = (i < crossoverIndex ? geneB : geneA);
+      crossedGeneA = crossedGeneA << 1;
+      crossedGeneB = crossedGeneB << 1;
+      longA = longA >> (Long.SIZE - i) & binarySingleBit;
+      longB = longB >> (Long.SIZE - i) & binarySingleBit;
+      crossedGeneA |= longA;
+      crossedGeneB |= longB;
+    }
+    // Give the chromosomes the newly swapped genes.
+    this.chromosome = crossedGeneA;
+    otherMember.chromosome = crossedGeneB;
+    return true;
+  }
+
   public boolean mutate(double mutationRate) {
     boolean mutated = false;
     for (int i = 0; i < Long.SIZE; i++) {
