@@ -19,13 +19,20 @@ public class PopulationMember {
 
   private Integer parsedValue;
 
+  private double fitness;
+
   public PopulationMember() {
     this(RANDOM.nextLong());
   }
 
   public PopulationMember(long chromosome) {
     this.chromosome = chromosome;
+    resetFitnessAndValue();
+  }
+
+  private void resetFitnessAndValue() {
     parsedValue = null;
+    fitness = -1;
   }
 
   public int parse() {
@@ -70,6 +77,7 @@ public class PopulationMember {
   public boolean crossOver(PopulationMember otherMember, double crossOverRate) {
     if (RANDOM.nextDouble() > crossOverRate)
       return false;
+    resetFitnessAndValue();
     final int binarySingleBit = 0b1;
     long geneA = this.chromosome, geneB = otherMember.chromosome;
     long crossedGeneA = 0, crossedGeneB = 0;
@@ -107,7 +115,21 @@ public class PopulationMember {
       int inverseBit = (int) ((~(chromosome >> (Long.SIZE - i - 1))) & 0x1);
       chromosome &= ~(inverseBit << Long.SIZE - i - 1);
     }
+    if (mutated)
+      resetFitnessAndValue();
     return mutated;
+  }
+
+  public void assignFitness(FitnessFunctor fitnessFunctor, int target) {
+    fitness = fitnessFunctor.determineFitness(this, target);
+  }
+
+  public long getChromosome() {
+    return chromosome;
+  }
+
+  public double getFitness() {
+    return fitness;
   }
 
 }

@@ -70,10 +70,6 @@ public class Chromosome {
     crossover(this, other, crossOverRate);
   }
 
-  /*public static void crossover(Chromosome a, Chromosome b) {
-    crossover(0.7f, a, b);
-  }*/
-
   public static void crossover(Chromosome a, Chromosome b, float crossOverRate) {
     if (crossOverRate < 0 || crossOverRate > 1)
       throw new IllegalArgumentException(

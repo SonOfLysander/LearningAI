@@ -33,8 +33,36 @@ public class Population {
     this.crossOverRate = crossOverRate;
   }
 
+  public long findTarget(int target) {
+    FitnessFunctor fitnessFunctor = new FitnessFunctor() {
+      @Override
+      public double determineFitness(PopulationMember populationMember, int target) {
+        int value = populationMember.parse();
+        if (value == target)
+          return TARGET_DISCOVERED;
+        return 1d / Math.abs(target - value);
+      }
+    };
+    return findTarget(target, fitnessFunctor);
+  }
+
   public long findTarget(int target, FitnessFunctor fitnessFunctor) {
-    return -1;
+    PopulationMember geneticSolution = null;
+    while (geneticSolution == null) {
+      // Assign fitness values for each member
+      float totalFitness = 0;
+      for (PopulationMember populationMember : populationMembers) {
+        populationMember.assignFitness(fitnessFunctor, target);
+        totalFitness += populationMember.getFitness();
+      }
+
+      for (PopulationMember populationMember : populationMembers) {
+        if (populationMember.getFitness() == FitnessFunctor.TARGET_DISCOVERED) {
+          geneticSolution = populationMember;
+        }
+      }
+    }
+    return geneticSolution.getChromosome();
   }
 
 }
