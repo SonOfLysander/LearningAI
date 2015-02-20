@@ -1,5 +1,7 @@
 package io.paulbaker.ai.simple_genetic_algorithm;
 
+import io.paulbaker.binary_lib.BitStringLib;
+
 /**
  * Created by paulbaker on 2/19/15.
  */
