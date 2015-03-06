@@ -1,10 +1,11 @@
 package io.paulbaker.binary_lib;
 
 import junit.framework.TestCase;
-
+import org.junit.Test;
 
 public class BitStringLibTest extends TestCase {
 
+  @Test
   public void testGetBinaryStringLong() throws Exception {
     String result = BitStringLib.getBinaryString(0l);
     assertEquals("0000000000000000000000000000000000000000000000000000000000000000", result);
@@ -14,6 +15,7 @@ public class BitStringLibTest extends TestCase {
     assertEquals("1000000000000000000000000000000000000000000000000000000000000000", result);
   }
 
+  @Test
   public void testGetBinaryStringInt() throws Exception {
     String result = BitStringLib.getBinaryString(0);
     assertEquals("00000000000000000000000000000000", result);
