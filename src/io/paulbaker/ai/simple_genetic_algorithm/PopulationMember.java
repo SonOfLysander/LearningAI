@@ -132,4 +132,8 @@ public class PopulationMember {
     return fitness;
   }
 
+  public PopulationMember getClone() {
+    return new PopulationMember(getChromosome());
+  }
+
 }
