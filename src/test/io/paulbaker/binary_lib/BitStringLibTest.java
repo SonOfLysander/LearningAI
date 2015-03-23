@@ -1,4 +1,4 @@
-package io.paulbaker.binary_lib;
+package test.io.paulbaker.binary_lib;
 
 import junit.framework.TestCase;
 import org.junit.Test;

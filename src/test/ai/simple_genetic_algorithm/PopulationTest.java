@@ -1,4 +1,4 @@
-package ai.simple_genetic_algorithm;
+package test.ai.simple_genetic_algorithm;
 
 import io.paulbaker.ai.simple_genetic_algorithm.Population;
 import io.paulbaker.ai.simple_genetic_algorithm.PopulationMember;
@@ -30,9 +30,10 @@ public class PopulationTest {
   @Test
   public void testPopulationToRand(){
     Population population = new Population(100, Population.DEFAULT_MUTATION_RATE, Population.DEFAULT_CROSSOVER_RATE);
-    int randomTarget = RANDOM.nextInt();
+    int randomTarget = RANDOM.nextInt(50000);
+    System.out.print("Target = " + randomTarget);
     PopulationMember member = population.findTarget(randomTarget);
-    System.out.println("Target = " + RANDOM + ", Member Binary = " + member.toString());
+    System.out.print(", Member Binary = " + member.toString());
   }
 
 }
