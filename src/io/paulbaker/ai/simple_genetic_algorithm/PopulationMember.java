@@ -1,10 +1,14 @@
 package io.paulbaker.ai.simple_genetic_algorithm;
 
+import org.pojomatic.Pojomatic;
+import org.pojomatic.annotations.AutoProperty;
+
 import java.util.Random;
 
 /**
  * Created by paulbaker on 2/19/15.
  */
+@AutoProperty
 public class PopulationMember {
 
   private static final Random RANDOM;
@@ -146,4 +150,18 @@ public class PopulationMember {
     return new PopulationMember(getChromosome());
   }
 
+  @Override
+  public String toString() {
+    return Pojomatic.toString(this);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    return Pojomatic.equals(this, o);
+  }
+
+  @Override
+  public int hashCode() {
+    return Pojomatic.hashCode(this);
+  }
 }

@@ -12,9 +12,13 @@ public class Population {
 
   private static final Random RANDOM;
 
+  public static final double DEFAULT_MUTATION_RATE, DEFAULT_CROSSOVER_RATE;
+
   static {
     synchronized (Population.class) {
       RANDOM = new Random();
+      DEFAULT_MUTATION_RATE = 0.001d;
+      DEFAULT_CROSSOVER_RATE  = 0.7d;
     }
   }
 
