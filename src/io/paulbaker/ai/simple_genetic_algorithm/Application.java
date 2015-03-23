@@ -8,5 +8,8 @@ import io.paulbaker.binary_lib.BitStringLib;
 public class Application {
   public static void main(String[] args) {
     Population population = new Population(100, 0.001d, 0.7d);
+    PopulationMember result = population.findTarget(42);
+    System.out.println("Result found after " + result.getGeneration() + " generations.");
+    System.out.println(BitStringLib.getBinaryString(result.getChromosome()));
   }
 }

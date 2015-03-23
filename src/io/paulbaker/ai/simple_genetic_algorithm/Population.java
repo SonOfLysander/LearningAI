@@ -33,10 +33,9 @@ public class Population {
     this.crossOverRate = crossOverRate;
   }
 
-  public long findTarget(int target) {
+  public PopulationMember findTarget(int target) {
     FitnessFunctor fitnessFunctor = new FitnessFunctor() {
-      @Override
-      public double determineFitness(PopulationMember populationMember, int target) {
+      @Override public double determineFitness(PopulationMember populationMember, int target) {
         int value = populationMember.parse();
         if (value == target)
           return TARGET_DISCOVERED;
@@ -46,23 +45,58 @@ public class Population {
     return findTarget(target, fitnessFunctor);
   }
 
-  public long findTarget(int target, FitnessFunctor fitnessFunctor) {
-    PopulationMember geneticSolution = null;
-    while (geneticSolution == null) {
+  public PopulationMember findTarget(int target, FitnessFunctor fitnessFunctor) {
+    int generationCount = 0;
+
+    generationLoop:
+    while (true) {
       // Assign fitness values for each member
       float totalFitness = 0;
+      fitnessLoop:
       for (PopulationMember populationMember : populationMembers) {
         populationMember.assignFitness(fitnessFunctor, target);
         totalFitness += populationMember.getFitness();
-      }
-
-      for (PopulationMember populationMember : populationMembers) {
         if (populationMember.getFitness() == FitnessFunctor.TARGET_DISCOVERED) {
-          geneticSolution = populationMember;
+          return populationMember;
         }
       }
+      PopulationMember[] temporaryPopulationPool = new PopulationMember[populationMembers.length];
+      for (int i = 0; i < temporaryPopulationPool.length; i += 2) {
+        PopulationMember memberA = roulette(totalFitness).getClone();
+        PopulationMember memberB = roulette(totalFitness).getClone();
+        memberA.setGeneration(generationCount);
+        memberB.setGeneration(generationCount);
+        memberA.crossOver(memberB, crossOverRate);
+        memberA.mutate(mutationRate);
+        memberB.mutate(mutationRate);
+        temporaryPopulationPool[i] = memberA;
+        temporaryPopulationPool[i + 1] = memberB;
+      }
+      populationMembers = temporaryPopulationPool;
+      generationCount++;
     }
-    return geneticSolution.getChromosome();
   }
 
+  private PopulationMember roulette(float totalFitness) {
+    float slice = randomFloat(0, totalFitness);
+    float fitnessSoFar = 0f;
+    for (int i = 0; i < populationMembers.length; i++) {
+      fitnessSoFar += populationMembers[i].getFitness();
+      if (fitnessSoFar > slice)
+        return populationMembers[i];
+    }
+    return populationMembers[populationMembers.length - 1];
+  }
+
+  private float randomFloat(float a, float b) {
+    if (b < a) {
+      float c = a;
+      a = b;
+      b = c;
+    }
+    float rand = RANDOM.nextFloat();
+    float diff = b - a;
+    float result = (rand * diff) + a;
+    return result;
+  }
 }

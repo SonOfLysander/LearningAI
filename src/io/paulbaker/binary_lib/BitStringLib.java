@@ -16,12 +16,4 @@ public class BitStringLib {
     return String.format("%" + Integer.SIZE + "s", Integer.toBinaryString(number)).replace(' ', '0');
   }
 
-  /*public static String getBinaryString(short number) {
-    return String.format("%" + Short.SIZE + "s", Short.toBinaryString(number)).replace(' ', '0');
-  }
-
-  public static String getBinaryString(char number) {
-    return String.format("%" + Character.SIZE + "s", Character.toBinaryString(number)).replace(' ', '0');
-  }*/
-
 }

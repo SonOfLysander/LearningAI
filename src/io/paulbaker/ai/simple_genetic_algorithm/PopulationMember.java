@@ -21,6 +21,8 @@ public class PopulationMember {
 
   private double fitness;
 
+  private int generation;
+
   public PopulationMember() {
     this(RANDOM.nextLong());
   }
@@ -130,6 +132,14 @@ public class PopulationMember {
 
   public double getFitness() {
     return fitness;
+  }
+
+  public int getGeneration() {
+    return generation;
+  }
+
+  public void setGeneration(int generation) {
+    this.generation = generation;
   }
 
   public PopulationMember getClone() {
