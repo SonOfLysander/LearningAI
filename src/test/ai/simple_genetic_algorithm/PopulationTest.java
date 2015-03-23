@@ -15,22 +15,22 @@ public class PopulationTest {
 
   @Test
   public void testPopulationTo0(){
-    Population population = new Population(100, Population.DEFAULT_MUTATION_RATE, Population.DEFAULT_CROSSOVER_RATE);
+    Population population = new Population(10, Population.DEFAULT_MUTATION_RATE, Population.DEFAULT_CROSSOVER_RATE);
     PopulationMember member = population.findTarget(0);
     System.out.println("Target = 0, Member Binary = " + member.toString());
   }
 
   @Test
   public void testPopulationTo100(){
-    Population population = new Population(100, Population.DEFAULT_MUTATION_RATE, Population.DEFAULT_CROSSOVER_RATE);
+    Population population = new Population(10, Population.DEFAULT_MUTATION_RATE, Population.DEFAULT_CROSSOVER_RATE);
     PopulationMember member = population.findTarget(100);
     System.out.println("Target = 100, Member Binary = " + member.toString());
   }
 
   @Test
   public void testPopulationToRand(){
-    Population population = new Population(100, Population.DEFAULT_MUTATION_RATE, Population.DEFAULT_CROSSOVER_RATE);
-    int randomTarget = RANDOM.nextInt(50000);
+    Population population = new Population(10, Population.DEFAULT_MUTATION_RATE, Population.DEFAULT_CROSSOVER_RATE);
+    int randomTarget = RANDOM.nextInt(350);
     System.out.print("Target = " + randomTarget);
     PopulationMember member = population.findTarget(randomTarget);
     System.out.print(", Member Binary = " + member.toString());
