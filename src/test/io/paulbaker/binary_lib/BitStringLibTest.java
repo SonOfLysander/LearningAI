@@ -1,5 +1,6 @@
 package test.io.paulbaker.binary_lib;
 
+import io.paulbaker.binary_lib.BitStringLib;
 import junit.framework.TestCase;
 import org.junit.Test;
 
