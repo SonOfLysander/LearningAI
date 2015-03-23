@@ -1,7 +1,9 @@
 package io.paulbaker.ai.simple_genetic_algorithm;
 
+import io.paulbaker.binary_lib.BitStringLib;
 import org.pojomatic.Pojomatic;
 import org.pojomatic.annotations.AutoProperty;
+import org.pojomatic.annotations.Property;
 
 import java.util.Random;
 
@@ -148,6 +150,11 @@ public class PopulationMember {
 
   public PopulationMember getClone() {
     return new PopulationMember(getChromosome());
+  }
+
+  @Property
+  public String getBinaryString(){
+    return BitStringLib.getBinaryString(getChromosome());
   }
 
   @Override
