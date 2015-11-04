@@ -84,7 +84,7 @@ public class ChromosomeTest extends AbstractTestNGSpringContextTests {
   }
 
   @Test(expectedExceptions = NumberFormatException.class)
-  public void testInvalidString() {
+  public void testInvalidBinaryString() {
     // This string is an invalid two's compliment string.
     String badBinaryString = "1000000000000000000000000000000000000000000000000000000000000000";
     Chromosome.fromString(badBinaryString);
