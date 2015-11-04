@@ -68,17 +68,17 @@ public class ChromosomeTest extends AbstractTestNGSpringContextTests {
     assertEquals("Chromosome does not parse from string correctly", string, chromosome.toString());
   }
 
-  @Test(dataProvider = "malformedStrings", expectedExceptions = IllegalArgumentException.class)
+  @Test(dataProvider = "malformedStrings", expectedExceptions = NumberFormatException.class)
   public void testMalformedStrings(String string) {
     Chromosome.fromString(string);
   }
 
-  @Test(dataProvider = "shortStrings", expectedExceptions = IllegalArgumentException.class)
+  @Test(dataProvider = "shortStrings", expectedExceptions = NumberFormatException.class)
   public void testShortStrings(String string) {
     Chromosome.fromString(string);
   }
 
-  @Test(dataProvider = "longStrings", expectedExceptions = IllegalArgumentException.class)
+  @Test(dataProvider = "longStrings", expectedExceptions = NumberFormatException.class)
   public void testLongStrings(String string) {
     Chromosome.fromString(string);
   }
