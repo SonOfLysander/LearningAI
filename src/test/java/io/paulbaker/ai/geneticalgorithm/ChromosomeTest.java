@@ -27,9 +27,13 @@ public class ChromosomeTest extends AbstractTestNGSpringContextTests {
   private Object[][] generateStrings(int count, int length, Supplier<Character> lambda) {
     Object[][] strings = new Object[count][];
     for (int i = 0; i < strings.length; i++) {
-      StringBuilder sb = new StringBuilder();
+      StringBuilder sb = new StringBuilder(length);
       for (int j = 0; j < length; j++) {
         sb.append(lambda.get());
+      }
+      // We can't have a 1 in the msb, so we replace it with a 0.
+      if (sb.charAt(0) == '1') {
+        sb.replace(0, 1, "0");
       }
       strings[i] = new Object[]{sb.toString()};
     }
@@ -42,21 +46,48 @@ public class ChromosomeTest extends AbstractTestNGSpringContextTests {
     return generateStrings(100, Long.SIZE, () -> random.nextBoolean() ? '1' : '0');
   }
 
-  @Test(dataProvider = "geneStrings")
-  public void testConstructedFromString(String string) {
-    Chromosome chromosome = Chromosome.fromString(string);
-    assertEquals("Chromosome does not parse from string correctly", string, chromosome.toString());
-  }
-
   @DataProvider(name = "malformedStrings")
   public Object[][] malformedStrings() {
     // Generates strings of correct length, but using digits [2,9].
     return generateStrings(100, Long.SIZE, () -> (char) (random.nextInt(8) + 50));
   }
 
+  @DataProvider(name = "shortStrings")
+  public Object[][] shortStrings() {
+    return generateStrings(100, Long.SIZE - 1, () -> random.nextBoolean() ? '1' : '0');
+  }
+
+  @DataProvider(name = "longStrings")
+  public Object[][] longStrings() {
+    return generateStrings(100, Long.SIZE + 1, () -> random.nextBoolean() ? '1' : '0');
+  }
+
+  @Test(dataProvider = "geneStrings")
+  public void testConstructedFromString(String string) {
+    Chromosome chromosome = Chromosome.fromString(string);
+    assertEquals("Chromosome does not parse from string correctly", string, chromosome.toString());
+  }
+
   @Test(dataProvider = "malformedStrings", expectedExceptions = IllegalArgumentException.class)
   public void testMalformedStrings(String string) {
     Chromosome.fromString(string);
+  }
+
+  @Test(dataProvider = "shortStrings", expectedExceptions = IllegalArgumentException.class)
+  public void testShortStrings(String string) {
+    Chromosome.fromString(string);
+  }
+
+  @Test(dataProvider = "longStrings", expectedExceptions = IllegalArgumentException.class)
+  public void testLongStrings(String string) {
+    Chromosome.fromString(string);
+  }
+
+  @Test(expectedExceptions = NumberFormatException.class)
+  public void testInvalidString() {
+    // This string is an invalid two's compliment string.
+    String badBinaryString = "1000000000000000000000000000000000000000000000000000000000000000";
+    Chromosome.fromString(badBinaryString);
   }
 
 }
