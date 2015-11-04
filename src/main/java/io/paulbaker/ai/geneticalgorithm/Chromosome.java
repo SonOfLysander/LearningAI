@@ -7,6 +7,10 @@ public class Chromosome {
 
   private long gene;
 
+  private Chromosome() {
+    gene = 0l;
+  }
+
   public static Chromosome fromString(String string) {
     if (string.length() != Long.SIZE) {
       String error = String.format("String must be %d characters long.", Long.SIZE);
