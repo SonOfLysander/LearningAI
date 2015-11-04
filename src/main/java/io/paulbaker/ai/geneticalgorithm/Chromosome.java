@@ -33,10 +33,12 @@ public class Chromosome {
 
   @Override
   public String toString() {
-    StringBuilder stringBuilder = new StringBuilder(Long.toBinaryString(gene));
-    while (stringBuilder.length() < Long.SIZE) {
-      stringBuilder.insert(0, '0');
+    StringBuilder stringBuilder = new StringBuilder(Long.SIZE);
+    String geneString = Long.toBinaryString(gene);
+    for (int i = 0; i < Long.SIZE - geneString.length(); i++) {
+      stringBuilder.append('0');
     }
+    stringBuilder.append(geneString);
     return stringBuilder.toString();
   }
 
