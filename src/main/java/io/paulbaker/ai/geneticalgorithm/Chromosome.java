@@ -22,16 +22,16 @@ public class Chromosome {
       String error = String.format("Binary string must be %d characters long.", Long.SIZE);
       throw new NumberFormatException(error);
     }
-    if (binaryString.charAt(0) == '1') {
-      throw new NumberFormatException("Binary string is of correct length, but starts with a 1");
-    }
+//    if (binaryString.charAt(0) == '1') {
+//      throw new NumberFormatException("Binary string is of correct length, but starts with a 1");
+//    }
     if (!binaryString.chars().allMatch(i -> {
       char letter = (char) i;
       return letter == '0' || letter == '1';
     })) {
       throw new NumberFormatException("Binary string must have only 0's and 1's.");
     }
-    return fromLong(Long.parseLong(binaryString, 2));
+    return fromLong(Long.parseUnsignedLong(binaryString, 2));
   }
 
   public static Chromosome fromLong(long number) {

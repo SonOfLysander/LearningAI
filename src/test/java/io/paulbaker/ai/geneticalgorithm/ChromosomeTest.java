@@ -32,10 +32,10 @@ public class ChromosomeTest extends AbstractTestNGSpringContextTests {
       for(int j = 0; j < length; j++) {
         sb.append(lambda.get());
       }
-      // We can't have a 1 in the msb, so we replace it with a 0.
-      if (sb.charAt(0) == '1') {
-        sb.replace(0, 1, "0");
-      }
+//      // We can't have a 1 in the msb, so we replace it with a 0.
+//      if (sb.charAt(0) == '1') {
+//        sb.replace(0, 1, "0");
+//      }
       strings[i] = new String[]{sb.toString()};
     }
     return strings;
@@ -65,13 +65,9 @@ public class ChromosomeTest extends AbstractTestNGSpringContextTests {
 
   @DataProvider(name = "breedableChromosomes")
   public Object[][] breedableChromosomes() {
-    String[][] strings = generateStrings(200, Long.SIZE, () -> random.nextBoolean() ? '1': '0');
-
     Chromosome[][] chromosomes = new Chromosome[100][2];
-    int chromoIndex = 0;
-    for(int i = 0; i < strings.length; i += 2) {
-      chromosomes[chromoIndex] = new Chromosome[]{Chromosome.fromString(strings[i][0]), Chromosome.fromString(strings[i + 1][0])};
-      chromoIndex++;
+    for(int i = 0; i < chromosomes.length; i++) {
+      chromosomes[i] = new Chromosome[]{factory.generateNewGene(), factory.generateNewGene()};
     }
     return chromosomes;
   }
@@ -79,7 +75,7 @@ public class ChromosomeTest extends AbstractTestNGSpringContextTests {
   @Test(dataProvider = "geneStrings")
   public void testConstructedFromString(String string) {
     Chromosome chromosome = Chromosome.fromString(string);
-    assertEquals("Chromosome does not parse from string correctly", string, chromosome.toString());
+    assertEquals(chromosome.toString(), string, "Chromosome does not parse from string correctly.");
   }
 
   @Test(dataProvider = "malformedStrings", expectedExceptions = NumberFormatException.class)
@@ -97,7 +93,7 @@ public class ChromosomeTest extends AbstractTestNGSpringContextTests {
     Chromosome.fromString(string);
   }
 
-  @Test(expectedExceptions = NumberFormatException.class)
+  @Test
   public void testInvalidBinaryString() {
     // This string is an invalid two's compliment string.
     String badBinaryString = "1000000000000000000000000000000000000000000000000000000000000000";
@@ -118,6 +114,28 @@ public class ChromosomeTest extends AbstractTestNGSpringContextTests {
     int dDistance = StringUtils.getLevenshteinDistance(chromosomes[0].toString(), chromosomes[1].toString());
 
     System.out.println("... I'm honestly unsure how to perform assertions on this. I can debug it and see that it is performing as expected, but I don't know how to prove it.");
+  }
+
+  //  @Test
+  public void testLongRange() {
+    for(long i = Long.MIN_VALUE; i < 0; i++) {
+      StringBuilder stringBuilder = new StringBuilder(Long.toBinaryString(i));
+      while (stringBuilder.length() < Long.SIZE) {
+        stringBuilder.insert(0, '0');
+      }
+      String binaryString = stringBuilder.toString();
+      Chromosome chromosome = Chromosome.fromString(binaryString);
+      assertEquals(chromosome.toString(), binaryString, "Long didn't parse from string correctly");
+    }
+    for(long i = 0l; i >= 0; i++) {
+      StringBuilder stringBuilder = new StringBuilder(Long.toBinaryString(i));
+      while (stringBuilder.length() < Long.SIZE) {
+        stringBuilder.insert(0, '0');
+      }
+      String binaryString = stringBuilder.toString();
+      Chromosome chromosome = Chromosome.fromString(binaryString);
+      assertEquals(chromosome.toString(), binaryString, "Long didn't parse from string correctly");
+    }
   }
 
 }
