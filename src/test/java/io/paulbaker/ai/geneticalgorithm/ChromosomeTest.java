@@ -18,8 +18,8 @@ import static org.testng.AssertJUnit.assertEquals;
 @SpringApplicationConfiguration(classes = MyMachineLearningApplication.class)
 public class ChromosomeTest extends AbstractTestNGSpringContextTests {
 
-  @Autowired
-  private ChromosomeFactory factory;
+//  @Autowired
+//  private ChromosomeFactory factory;
 
   @Autowired
   private Random random;
