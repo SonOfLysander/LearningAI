@@ -1,6 +1,7 @@
 package io.paulbaker.ai;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -13,6 +14,7 @@ import java.util.function.Function;
  */
 @AllArgsConstructor
 @Getter
+@EqualsAndHashCode
 public class Gene {
 
   private static final Random random = new Random();
@@ -26,6 +28,7 @@ public class Gene {
   @AllArgsConstructor
   @Getter
   @ToString
+  @EqualsAndHashCode
   public static class GeneTuple {
     private final Gene a;
     private final Gene b;
@@ -35,7 +38,7 @@ public class Gene {
     return crossover(a, b, (left, right) -> {
       StringBuilder leftString = new StringBuilder(toBinaryString(left.dna));
       StringBuilder rightString = new StringBuilder(toBinaryString(right.dna));
-      int index = random.nextInt(Long.SIZE);
+      int index = random.nextInt(Long.SIZE - 2) + 1; // an index that isn't either end
 
       for (int i = 0; i < index; i++) {
         char c = leftString.charAt(i);
@@ -68,7 +71,7 @@ public class Gene {
     return mutationFn.apply(original);
   }
 
-  private static String toBinaryString(Long number) {
+  static String toBinaryString(Long number) {
     StringBuilder stringBuilder = new StringBuilder(Long.toBinaryString(number));
     while (stringBuilder.length() < Long.SIZE) {
       stringBuilder.insert(0, '0');
@@ -76,7 +79,7 @@ public class Gene {
     return stringBuilder.toString();
   }
 
-  private static long fromBinaryString(String string) {
+  static long fromBinaryString(String string) {
     return Long.parseUnsignedLong(string, 2);
   }
 
