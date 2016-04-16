@@ -17,7 +17,11 @@ public class NeuralLayer {
         .collect(Collectors.toList());
   }
 
-//  public List<Double> getWeights() {
-//    neurons.stream().map(neuron -> neuron)
-//  }
+  private void pullWeights(){
+
+  }
+
+  private void pushWeights(){
+
+  }
 }

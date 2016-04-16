@@ -10,11 +10,10 @@ import java.util.stream.DoubleStream;
  */
 public class Neuron {
   private static final Random random = new Random();
-  private int inputCount;
   private List<Double> inputWeights;
 
   public Neuron(int inputCount) {
-    this.inputCount = inputCount;
+    // The count is +1. This is because the last value is the threshold.
     inputWeights = DoubleStream
         .generate(random::nextDouble)
         .limit(inputCount + 1)

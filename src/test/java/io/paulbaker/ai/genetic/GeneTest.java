@@ -1,6 +1,7 @@
-package io.paulbaker.ai;
+package io.paulbaker.ai.genetic;
 
-import io.paulbaker.ai.Gene.GeneTuple;
+import io.paulbaker.ai.genetic.Gene;
+import io.paulbaker.ai.genetic.Gene.GeneTuple;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
@@ -62,6 +63,12 @@ public class GeneTest {
         assertNotEquals(crossover.getA(), zeros);
         assertNotEquals(crossover.getB(), ones);
         assertNotEquals(crossover.getB(), zeros);
+    }
+
+    @Test
+    public void asdf(){
+        Gene gene = new Gene();
+        double fitness = gene.fitness();
     }
 
 }
